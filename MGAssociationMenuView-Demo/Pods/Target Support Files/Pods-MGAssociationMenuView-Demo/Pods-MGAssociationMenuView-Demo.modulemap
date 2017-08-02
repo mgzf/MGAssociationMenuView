@@ -1,0 +1,6 @@
+framework module Pods_MGAssociationMenuView_Demo {
+  umbrella header "Pods-MGAssociationMenuView-Demo-umbrella.h"
+
+  export *
+  module * { export * }
+}
