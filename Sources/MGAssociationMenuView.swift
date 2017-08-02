@@ -219,6 +219,8 @@ extension MGAssociationMenuView{
         associationView.tableView.dataSource = self
         contentView.addSubview(associationView)
         
+        delegate?.registerCell(associationView.tableView, tableForColumnAt: associationViews.count)
+        
         if associationViews.count == 0 {
             associationViews.append(associationView)
             tableViews.append(associationView.tableView)

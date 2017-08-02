@@ -100,6 +100,9 @@ class ViewController: UIViewController {
 
 extension ViewController: MGAssociationMenuViewDelegate{
     
+    func registerCell(_ tableView: UITableView, tableForColumnAt  column: Int){
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
+    }
     
     func configureFirstTableData() -> [Any] {
         return oneModels
@@ -137,7 +140,7 @@ extension ViewController: MGAssociationMenuViewDelegate{
         return nil
     }
     
-    func completionWithSelectData(_ selectData : [Any] ) -> Void{
+    func completionWithSelectData(_ selectData : [Any] ){
         print("selectData:\(selectData.count)")
     }
 

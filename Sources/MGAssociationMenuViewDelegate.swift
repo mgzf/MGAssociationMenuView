@@ -32,6 +32,15 @@ import UIKit
 public protocol  MGAssociationMenuViewDelegate : class {
     
     
+    /// 注册Cell
+    ///
+    /// - Parameters:
+    ///   - tableView:
+    ///   - column: 对应列的tableView
+    /// - Returns: nil
+    func registerCell(_ tableView: UITableView, tableForColumnAt  column: Int)
+    
+    
     /// 配置每列的cell
     ///
     /// - Parameters:
@@ -63,5 +72,5 @@ public protocol  MGAssociationMenuViewDelegate : class {
     ///
     /// - Parameter selectData: 选中的每列tableView中对应的数据组合成的数组
     /// - Returns: nil
-    func completionWithSelectData(_ selectData : [Any] ) -> Void
+    func completionWithSelectData(_ selectData : [Any] )
 }
