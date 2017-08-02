@@ -231,11 +231,12 @@ extension MGAssociationMenuView{
         }
         else{
             
+            let lastView = associationViews.last!
+            
             associationView.frame = CGRect(x: contentView.frame.width, y: 0, width: contentView.frame.width, height: contentView.frame.height)
             associationViews.append(associationView)
             tableViews.append(associationView.tableView)
             
-            let lastView = associationViews.last!
             associationView.snp.remakeConstraints({ (make) in
                 make.width.equalTo(contentView.frame.width)
                 make.top.bottom.equalTo(contentView)
