@@ -153,9 +153,8 @@ extension MGAssociationMenuView{
             if let `nextListData` = nextListData,nextListData.count > 0{
                 addAssociationView(listData: nextListData, column: nextColumn)
             }
-            else{
-                guard let `delegate` = delegate else { return }
-                delegate.completionWithSelectData(selectDatas)
+            else if nextColumn > 0 && tableViews.count > nextColumn {
+                addAssociationView(listData: tableView.listData, column: nextColumn - 1)
             }
         }
     }
