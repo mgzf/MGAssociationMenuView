@@ -264,9 +264,6 @@ extension MGAssociationMenuView{
 extension MGAssociationMenuView : UITableViewDelegate{
     
     public func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath?{
-        if tableView.indexPathForSelectedRow == indexPath {
-            return indexPath
-        }
 
         guard let `delegate` = delegate else {
             assertionFailure("老大，实现delegate去吧")
@@ -276,16 +273,29 @@ extension MGAssociationMenuView : UITableViewDelegate{
         let listData = (tableView as! MGAssociationTableView).listData
         guard let indexOfTables = tableViews.index(of: tableView as! MGAssociationTableView) else { return  indexPath }
         
-        addSelectCellData(indexOfTables: indexOfTables, data: listData[indexPath.row])
+        let nextListData = delegate.selectToNextTableData(tableView, tableForColumnAt: indexOfTables, cellForRowAt: indexPath, cellForTableAt: listData[indexPath.row])
         
-        if let nextListData = delegate.selectToNextTableData(tableView, tableForColumnAt: indexOfTables, cellForRowAt: indexPath, cellForTableAt: listData[indexPath.row]),
-            nextListData.count > 0 {
-            addAssociationView(listData: nextListData, column: indexOfTables + 1)
+        if tableView.indexPathForSelectedRow != indexPath {
+            addSelectCellData(indexOfTables: indexOfTables, data: listData[indexPath.row])
+            if let `nextListData` = nextListData,
+                nextListData.count > 0 {
+                addAssociationView(listData: nextListData, column: indexOfTables + 1)
+            }
+            else
+            {
+                addAssociationView(listData: listData, column: indexOfTables,isReload: false)
+                delegate.completionWithSelectData(selectDatas)
+            }
         }
         else
         {
-            addAssociationView(listData: listData, column: indexOfTables,isReload: false)
-            delegate.completionWithSelectData(selectDatas)
+            if let `nextListData` = nextListData,
+                nextListData.count > 0 {
+            }
+            else
+            {
+                delegate.completionWithSelectData(selectDatas)
+            }
         }
         
         return indexPath
