@@ -257,6 +257,19 @@ extension MGAssociationMenuView{
         }, completion:nil)
     }
     
+    fileprivate func reload(_ nextColumn: Int,nextListData:[Any]?){
+        if tableViews.count > nextColumn {
+            let tableView = tableViews[nextColumn]
+            tableView.listData = nextListData ?? []
+            tableView.reloadData()
+        }
+        else if tableViews.count == nextColumn {
+            if let `nextListData` = nextListData,nextListData.count > 0{
+                addAssociationView(listData: nextListData, column: nextColumn)
+            }
+        }
+    }
+    
 }
 
 //MARK: - UITableViewDelegate
