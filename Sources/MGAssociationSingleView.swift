@@ -45,6 +45,11 @@ class MGAssociationTableView: UITableView {
 
 class MGAssociationSingleView: UIView {
     
+    deinit {
+        self.tableView.delegate = nil
+        self.tableView.dataSource = nil
+    }
+    
     //MARK: - 属性UI
     
     lazy public var tableView: MGAssociationTableView = {
