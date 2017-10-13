@@ -80,11 +80,11 @@ public protocol  MGAssociationMenuViewDelegate : class {
     func completionFinalColumnWithSelectData(_ selectData : [Any] )
 }
 
-extension MGAssociationMenuViewDelegate {
-    func completionWithSelectData(_ selectData : [Any] ) {
+public extension MGAssociationMenuViewDelegate {
+    public func completionWithSelectData(_ selectData : [Any] ) {
         
     }
-    func completionFinalColumnWithSelectData(_ selectData : [Any] ) {
+    public func completionFinalColumnWithSelectData(_ selectData : [Any] ) {
         
     }
 }
