@@ -26,7 +26,37 @@
 
 import UIKit
 
-//MARK: - 单列显示
+/*! 对tableView的操作 */
+
+public extension UITableView {
+    
+    /*! 选中多个Cell */
+    func selectRows(at indexPaths: [IndexPath]?, animated: Bool, scrollPosition: UITableViewScrollPosition = .none) {
+        if let `indexPaths` = indexPaths {
+            for indexPath in indexPaths {
+                selectRow(at: indexPath, animated: animated, scrollPosition: scrollPosition)
+            }
+        }
+    }
+    /*! 反选多个Cell */
+    func deselectRows(at indexPaths: [IndexPath]?, animated: Bool) {
+        if let `indexPaths` = indexPaths {
+            for indexPath in indexPaths {
+                deselectRow(at: indexPath, animated: animated)
+            }
+        }
+    }
+    
+    /*! 取消所有选中 */
+    func cancleSelectRows(animated: Bool) {
+        if let indexPaths = indexPathsForSelectedRows {
+            for indexPath in indexPaths {
+                deselectRow(at: indexPath, animated: animated)
+            }
+        }
+    }
+}
+
 
 
 //MARK: - 自定义TableView 将数据绑定到TableView上

@@ -79,6 +79,9 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func reloadEvent(_ sender: Any) {
+        associationMenuView.reload()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -128,6 +131,10 @@ extension ViewController: MGAssociationMenuViewDelegate{
     }
     
     func selectToNextTableData(_ tableView: UITableView, tableForColumnAt  column: Int, cellForRowAt indexPath: IndexPath , cellForTableAt data: Any?) -> [Any]?{
+        tableView.allowsMultipleSelection = column == 3
+        if column == 3 && indexPath.row == 0 {
+            tableView.selectRow(at: IndexPath.init(row: 9, section: 0), animated: false, scrollPosition: .none)
+        }
         if let oneModel = data as? OneModel {
             return oneModel.twoModels
         }
@@ -141,7 +148,11 @@ extension ViewController: MGAssociationMenuViewDelegate{
     }
     
     func completionWithSelectData(_ selectData : [Any] ){
-        print("selectData:\(selectData.count)")
+        print("多列信息数组:\(String(describing: selectData.last))")
+    }
+    
+    func completionFinalColumnWithSelectData(_ selectData : [Any] ) {
+        print("只存储最后一列的信息:\(selectData)")
     }
 
 }

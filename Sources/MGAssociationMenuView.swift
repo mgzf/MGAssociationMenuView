@@ -49,6 +49,7 @@ open class MGAssociationMenuView: UIView ,BottomLineVisible{
             contentViewWithFrame()
         }
     }
+    
     // @IBInspectable 不支持 protocol
     public weak var delegate : MGAssociationMenuViewDelegate?{
         didSet{
@@ -58,8 +59,14 @@ open class MGAssociationMenuView: UIView ,BottomLineVisible{
     
     //MARK: - 私有属性
     
+    /*! 存储每列对应选中的数据 如果多选对应单列最后选中的 */
+    fileprivate var selectDatas: [Any] = []
+    
+    /*! 多选对应的最后一列的选中数组 */
+    fileprivate var finalColumnWithIndexs: [IndexPath] = []
+    
     /*! 第一列对应的数据 */
-    fileprivate var firstListData : [Any] =  [Any](){
+   fileprivate var firstListData : [Any] =  [Any](){
         didSet{
             if firstListData.count > 0 {
                 contentViewWithFrame()
@@ -72,6 +79,9 @@ open class MGAssociationMenuView: UIView ,BottomLineVisible{
             }
         }
     }
+    
+    /*! 是否是最后一列 */
+    fileprivate var isFinalColumn:Bool = false
     
     lazy fileprivate var contentView: UIView = {
         let view = UIView()
@@ -92,10 +102,6 @@ open class MGAssociationMenuView: UIView ,BottomLineVisible{
     
     /*! 存储每列对应的TableView */
     fileprivate var tableViews: [MGAssociationTableView] = []
-    
-    
-    /*! 存储每列对应选中的数据 */
-    fileprivate var selectDatas: [Any] = []
     
     
     //MARK: - BottomLineVisible 属性实现
@@ -205,6 +211,7 @@ extension MGAssociationMenuView{
             if isReload {
                 let lastView = associationViews.last!
                 lastView.tableView.contentOffset = CGPoint.zero
+                lastView.tableView.cancleSelectRows(animated: false)
                 lastView.tableView.listData = listData
             }
         }
@@ -220,7 +227,7 @@ extension MGAssociationMenuView{
         if indexOfTables < selectDatas.count {
             selectDatas = Array(selectDatas.prefix(upTo: indexOfTables))
         }
-         selectDatas.append(data)
+        selectDatas.append(data)
     }
     
     /*! 添加一列View */
@@ -275,6 +282,34 @@ extension MGAssociationMenuView{
 
 extension MGAssociationMenuView : UITableViewDelegate{
     
+    public func tableView(_ tableView: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath? {
+        
+        guard let `delegate` = delegate else {
+            assertionFailure("老大，实现delegate去吧")
+            return indexPath
+        }
+        if !self.isFinalColumn {  return indexPath }
+        if !tableView.allowsMultipleSelection {  return indexPath }
+        
+        let listData = (tableView as! MGAssociationTableView).listData
+        
+        finalColumnWithIndexs.removeAll()
+        if let arr = tableView.indexPathsForSelectedRows {
+            finalColumnWithIndexs = arr
+        }
+        if let index = finalColumnWithIndexs.index(where: { (index) -> Bool in
+            index == indexPath
+        }) {
+            finalColumnWithIndexs.remove(at: index)
+        }
+        let finalSelectDatas = finalColumnWithIndexs.map({ (index) -> Any in
+            return listData[index.row]
+        })
+        delegate.completionFinalColumnWithSelectData(finalSelectDatas)
+        
+        return indexPath
+    }
+    
     public func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath?{
 
         guard let `delegate` = delegate else {
@@ -287,29 +322,51 @@ extension MGAssociationMenuView : UITableViewDelegate{
         
         let nextListData = delegate.selectToNextTableData(tableView, tableForColumnAt: indexOfTables, cellForRowAt: indexPath, cellForTableAt: listData[indexPath.row])
         
-        if tableView.indexPathForSelectedRow != indexPath {
-            addSelectCellData(indexOfTables: indexOfTables, data: listData[indexPath.row])
-            if let `nextListData` = nextListData,
-                nextListData.count > 0 {
-                addAssociationView(listData: nextListData, column: indexOfTables + 1)
-            }
-            else
-            {
-                addAssociationView(listData: listData, column: indexOfTables,isReload: false)
-                delegate.completionWithSelectData(selectDatas)
-            }
+        if let `nextListData` = nextListData{
+            self.isFinalColumn = nextListData.isEmpty
         }
-        else
-        {
-            if let `nextListData` = nextListData,
-                nextListData.count > 0 {
-            }
-            else
-            {
-                delegate.completionWithSelectData(selectDatas)
-            }
+        else {
+            self.isFinalColumn = true
         }
         
+        /*! 点击的是同一个Cell 且有下一列 */
+        if !self.isFinalColumn && tableView.indexPathForSelectedRow == indexPath {
+            return indexPath
+        }
+        
+        /*! 添加数据 */
+        if tableView.indexPathForSelectedRow != indexPath {
+            addSelectCellData(indexOfTables: indexOfTables, data: listData[indexPath.row])
+        }
+        
+        /*! 设置下一列 */
+        if let `nextListData` = nextListData, !nextListData.isEmpty {
+            addAssociationView(listData: nextListData, column: indexOfTables + 1)
+        }
+        else {
+            addAssociationView(listData: listData, column: indexOfTables,isReload: false)
+        }
+        
+        /*! 选中最后一列 */
+        if self.isFinalColumn {
+            delegate.completionWithSelectData(selectDatas)
+            /*! 单选 直接完成 */
+            if !tableView.allowsMultipleSelection{
+                delegate.completionFinalColumnWithSelectData([listData[indexPath.row]])
+            }
+            else {
+                /*! 筛选选中的CellIndexpath */
+                finalColumnWithIndexs.removeAll()
+                if let arr = tableView.indexPathsForSelectedRows {
+                    finalColumnWithIndexs = arr
+                }
+                finalColumnWithIndexs.append(indexPath)
+                let finalSelectDatas = finalColumnWithIndexs.map({ (index) -> Any in
+                    return listData[index.row]
+                })
+                delegate.completionFinalColumnWithSelectData(finalSelectDatas)
+            }
+        }
         return indexPath
     }
 }

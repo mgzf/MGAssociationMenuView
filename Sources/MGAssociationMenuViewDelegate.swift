@@ -68,9 +68,23 @@ public protocol  MGAssociationMenuViewDelegate : class {
     func selectToNextTableData(_ tableView: UITableView, tableForColumnAt  column: Int, cellForRowAt indexPath: IndexPath , cellForTableAt data: Any?) -> [Any]?
     
     
-    /// 点击最后一列的回调
+    /// 点击最后一列单选的回调
     ///
     /// - Parameter selectData: 选中的每列tableView中对应的数据组合成的数组
     /// - Returns: nil
     func completionWithSelectData(_ selectData : [Any] )
+    
+    /// 点击最后一列多选数据
+    ///
+    /// - Parameter selectData: 最后一列中选中的对应的数据组合成的数组
+    func completionFinalColumnWithSelectData(_ selectData : [Any] )
+}
+
+extension MGAssociationMenuViewDelegate {
+    func completionWithSelectData(_ selectData : [Any] ) {
+        
+    }
+    func completionFinalColumnWithSelectData(_ selectData : [Any] ) {
+        
+    }
 }
