@@ -34,6 +34,14 @@ public extension UITableView {
     func selectRows(at indexPaths: [IndexPath]?, animated: Bool, scrollPosition: UITableViewScrollPosition = .none) {
         if let `indexPaths` = indexPaths {
             for indexPath in indexPaths {
+                if let `delegate` = delegate {
+                    if delegate.responds(to: #selector(UITableViewDelegate.tableView(_:willSelectRowAt:))){
+                        let _ = delegate.tableView!(self, willSelectRowAt: indexPath)
+                    }
+                    if delegate.responds(to: #selector(UITableViewDelegate.tableView(_:didSelectRowAt:))){
+                        delegate.tableView!(self, didSelectRowAt: indexPath)
+                    }
+                }
                 selectRow(at: indexPath, animated: animated, scrollPosition: scrollPosition)
             }
         }

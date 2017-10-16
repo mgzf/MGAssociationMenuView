@@ -67,6 +67,14 @@ public protocol  MGAssociationMenuViewDelegate : class {
     /// - Returns: 数组即下列tableview显示的数据
     func selectToNextTableData(_ tableView: UITableView, tableForColumnAt  column: Int, cellForRowAt indexPath: IndexPath , cellForTableAt data: Any?) -> [Any]?
     
+    /// 显示下列TableView 可以自己设置选中的Cell
+    ///
+    /// - Parameters:
+    ///   - tableView:
+    ///   - column: 第几列
+    ///   - data: tableView对应的数据
+    func didShowNextTableView(_ tableView: UITableView, tableForColumnAt  column: Int, tableAt data: [Any]?)
+    
     
     /// 点击最后一列单选的回调
     ///
@@ -81,6 +89,11 @@ public protocol  MGAssociationMenuViewDelegate : class {
 }
 
 public extension MGAssociationMenuViewDelegate {
+    
+    public func didShowNextTableView(_ tableView: UITableView, tableForColumnAt  column: Int, tableAt data: [Any]?) {
+        
+    }
+    
     public func completionWithSelectData(_ selectData : [Any] ) {
         
     }

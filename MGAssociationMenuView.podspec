@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MGAssociationMenuView"
-  s.version      = "0.0.4"
+  s.version      = "0.0.5"
   s.summary      = "多级联动控件"
 
   # This description is used to generate tags and improve search results.

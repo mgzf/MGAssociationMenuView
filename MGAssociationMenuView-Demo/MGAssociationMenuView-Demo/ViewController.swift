@@ -133,7 +133,7 @@ extension ViewController: MGAssociationMenuViewDelegate{
     func selectToNextTableData(_ tableView: UITableView, tableForColumnAt  column: Int, cellForRowAt indexPath: IndexPath , cellForTableAt data: Any?) -> [Any]?{
         tableView.allowsMultipleSelection = column == 3
         if column == 3 && indexPath.row == 0 {
-            tableView.cancleSelectRows(animated: false)
+            tableView.reloadData()
         }
         if let oneModel = data as? OneModel {
             return oneModel.twoModels
@@ -145,6 +145,10 @@ extension ViewController: MGAssociationMenuViewDelegate{
             return threeModel.frouModels
         }
         return nil
+    }
+    
+    func didShowNextTableView(_ tableView: UITableView, tableForColumnAt column: Int, tableAt data: [Any]?) {
+        tableView.selectRows(at: [IndexPath(row: column + 1, section: 0)], animated: true)
     }
     
     func completionWithSelectData(_ selectData : [Any] ){

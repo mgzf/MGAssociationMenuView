@@ -243,7 +243,9 @@ extension MGAssociationMenuView{
         
         if associationViews.count == 0 {
             associationViews.append(associationView)
-            tableViews.append(associationView.tableView)
+            tableViews = associationViews.flatMap({ (view) -> MGAssociationTableView? in
+                return view.tableView
+            })
             
             associationView.snp.makeConstraints({ (make) in
                 make.left.top.bottom.equalTo(contentView)
@@ -257,7 +259,9 @@ extension MGAssociationMenuView{
             
             associationView.frame = CGRect(x: contentView.frame.width, y: 0, width: contentView.frame.width, height: contentView.frame.height)
             associationViews.append(associationView)
-            tableViews.append(associationView.tableView)
+            tableViews = associationViews.flatMap({ (view) -> MGAssociationTableView? in
+                return view.tableView
+            })
             
             associationView.snp.remakeConstraints({ (make) in
                 make.width.equalTo(contentView.frame.width)
@@ -368,6 +372,16 @@ extension MGAssociationMenuView : UITableViewDelegate{
             }
         }
         return indexPath
+    }
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let `delegate` = delegate else {
+            assertionFailure("老大，实现delegate去吧")
+            return
+        }
+        if !self.isFinalColumn,let nextTableView = tableViews.last{
+            delegate.didShowNextTableView(nextTableView, tableForColumnAt: tableViews.count - 1, tableAt: nextTableView.listData)
+        }
     }
 }
 
