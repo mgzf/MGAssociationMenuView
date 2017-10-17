@@ -130,7 +130,7 @@ extension ViewController: MGAssociationMenuViewDelegate{
         return cell
     }
     
-    func selectToNextTableData(_ tableView: UITableView, tableForColumnAt  column: Int, cellForRowAt indexPath: IndexPath , cellForTableAt data: Any?) -> [Any]?{
+    func selectToNextTableData(_ tableView: UITableView, tableForColumnAt column: Int, cellForRowAt indexPath: IndexPath, tableAt listData: [Any], cellForTableAt data: Any?) -> [Any]? {
         tableView.allowsMultipleSelection = column == 3
         if column == 3 && indexPath.row == 0 {
             tableView.reloadData()

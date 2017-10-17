@@ -65,7 +65,7 @@ public protocol  MGAssociationMenuViewDelegate : class {
     ///   - indexPath: cell的Indexpath
     ///   - data: cell 对应的数据
     /// - Returns: 数组即下列tableview显示的数据
-    func selectToNextTableData(_ tableView: UITableView, tableForColumnAt  column: Int, cellForRowAt indexPath: IndexPath , cellForTableAt data: Any?) -> [Any]?
+    func selectToNextTableData(_ tableView: UITableView, tableForColumnAt  column: Int, cellForRowAt indexPath: IndexPath, tableAt listData: [Any] , cellForTableAt data: Any?) -> [Any]?
     
     /// 显示下列TableView 可以自己设置选中的Cell
     ///
@@ -85,7 +85,7 @@ public protocol  MGAssociationMenuViewDelegate : class {
     /// 点击最后一列多选数据
     ///
     /// - Parameter selectData: 最后一列中选中的对应的数据组合成的数组
-    func completionFinalColumnWithSelectData(_ selectData : [Any], unSelectData : Any?)
+    func completionFinalColumnWithSelectData(_ tableView: UITableView, tableForColumnAt  column: Int, selectData : [Any], unSelectData : Any?)
 }
 
 public extension MGAssociationMenuViewDelegate {
@@ -98,7 +98,7 @@ public extension MGAssociationMenuViewDelegate {
         
     }
     
-    func completionFinalColumnWithSelectData(_ selectData : [Any], unSelectData : Any?) {
+    func completionFinalColumnWithSelectData(_ tableView: UITableView, tableForColumnAt  column: Int, selectData : [Any], unSelectData : Any?) {
         
     }
 }

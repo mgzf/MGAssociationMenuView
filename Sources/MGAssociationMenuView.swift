@@ -302,6 +302,7 @@ extension MGAssociationMenuView : UITableViewDelegate{
         }
         if !self.isFinalColumn {  return indexPath }
         if !tableView.allowsMultipleSelection {  return indexPath }
+        guard let indexOfTables = tableViews.index(of: tableView as! MGAssociationTableView) else { return  indexPath }
         
         let listData = (tableView as! MGAssociationTableView).listData
         
@@ -317,7 +318,8 @@ extension MGAssociationMenuView : UITableViewDelegate{
         let finalSelectDatas = finalColumnWithIndexs.map({ (index) -> Any in
             return listData[index.row]
         })
-        delegate.completionFinalColumnWithSelectData(finalSelectDatas, unSelectData: listData[indexPath.row])
+        
+        delegate.completionFinalColumnWithSelectData(tableView, tableForColumnAt: indexOfTables, selectData: finalSelectDatas, unSelectData: listData[indexPath.row])
         
         return indexPath
     }
@@ -332,7 +334,7 @@ extension MGAssociationMenuView : UITableViewDelegate{
         let listData = (tableView as! MGAssociationTableView).listData
         guard let indexOfTables = tableViews.index(of: tableView as! MGAssociationTableView) else { return  indexPath }
         
-        let nextListData = delegate.selectToNextTableData(tableView, tableForColumnAt: indexOfTables, cellForRowAt: indexPath, cellForTableAt: listData[indexPath.row])
+        let nextListData = delegate.selectToNextTableData(tableView, tableForColumnAt: indexOfTables, cellForRowAt: indexPath, tableAt: listData, cellForTableAt: listData[indexPath.row])
         
         if let `nextListData` = nextListData{
             self.isFinalColumn = nextListData.isEmpty
@@ -364,7 +366,7 @@ extension MGAssociationMenuView : UITableViewDelegate{
             delegate.completionWithSelectData(selectDatas)
             /*! 单选 直接完成 */
             if !tableView.allowsMultipleSelection{
-                delegate.completionFinalColumnWithSelectData([listData[indexPath.row]], unSelectData: nil)
+                delegate.completionFinalColumnWithSelectData(tableView, tableForColumnAt: indexOfTables, selectData: [listData[indexPath.row]], unSelectData: nil)
             }
             else {
                 /*! 筛选选中的CellIndexpath */
@@ -376,7 +378,7 @@ extension MGAssociationMenuView : UITableViewDelegate{
                 let finalSelectDatas = finalColumnWithIndexs.map({ (index) -> Any in
                     return listData[index.row]
                 })
-                delegate.completionFinalColumnWithSelectData(finalSelectDatas, unSelectData: nil)
+                delegate.completionFinalColumnWithSelectData(tableView, tableForColumnAt: indexOfTables, selectData:finalSelectDatas, unSelectData: nil)
             }
         }
         return indexPath
