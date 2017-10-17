@@ -153,7 +153,7 @@ extension MGAssociationMenuView{
         }
     }
     
-    /*! 刷新单个tableView */
+    /*! 刷新单个tableView并刷新数据源 */
     public func reload(_ nextColumn: Int,nextListData:[Any]?){
         if tableViews.count >= nextColumn {
             if let `nextListData` = nextListData,nextListData.count > 0{
@@ -163,6 +163,14 @@ extension MGAssociationMenuView{
                 let tableView = tableViews[nextColumn - 1]
                 addAssociationView(listData: tableView.listData, column: nextColumn - 1)
             }
+        }
+    }
+
+    /*! 单纯刷新单个tableView */
+    public func reload(at column: Int){
+        if tableViews.count > column {
+            let tableView = tableViews[column]
+            tableView.reloadData()
         }
     }
 }
