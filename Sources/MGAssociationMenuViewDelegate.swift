@@ -85,7 +85,7 @@ public protocol  MGAssociationMenuViewDelegate : class {
     /// 点击最后一列多选数据
     ///
     /// - Parameter selectData: 最后一列中选中的对应的数据组合成的数组
-    func completionFinalColumnWithSelectData(_ selectData : [Any] )
+    func completionFinalColumnWithSelectData(_ selectData : [Any], unSelectData : Any?)
 }
 
 public extension MGAssociationMenuViewDelegate {
@@ -97,7 +97,8 @@ public extension MGAssociationMenuViewDelegate {
     public func completionWithSelectData(_ selectData : [Any] ) {
         
     }
-    public func completionFinalColumnWithSelectData(_ selectData : [Any] ) {
+    
+    func completionFinalColumnWithSelectData(_ selectData : [Any], unSelectData : Any?) {
         
     }
 }

@@ -309,7 +309,7 @@ extension MGAssociationMenuView : UITableViewDelegate{
         let finalSelectDatas = finalColumnWithIndexs.map({ (index) -> Any in
             return listData[index.row]
         })
-        delegate.completionFinalColumnWithSelectData(finalSelectDatas)
+        delegate.completionFinalColumnWithSelectData(finalSelectDatas, unSelectData: listData[indexPath.row])
         
         return indexPath
     }
@@ -356,7 +356,7 @@ extension MGAssociationMenuView : UITableViewDelegate{
             delegate.completionWithSelectData(selectDatas)
             /*! 单选 直接完成 */
             if !tableView.allowsMultipleSelection{
-                delegate.completionFinalColumnWithSelectData([listData[indexPath.row]])
+                delegate.completionFinalColumnWithSelectData([listData[indexPath.row]], unSelectData: nil)
             }
             else {
                 /*! 筛选选中的CellIndexpath */
@@ -368,7 +368,7 @@ extension MGAssociationMenuView : UITableViewDelegate{
                 let finalSelectDatas = finalColumnWithIndexs.map({ (index) -> Any in
                     return listData[index.row]
                 })
-                delegate.completionFinalColumnWithSelectData(finalSelectDatas)
+                delegate.completionFinalColumnWithSelectData(finalSelectDatas, unSelectData: nil)
             }
         }
         return indexPath
