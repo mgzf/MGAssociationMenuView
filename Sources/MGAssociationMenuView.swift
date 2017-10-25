@@ -128,6 +128,7 @@ open class MGAssociationMenuView: UIView ,BottomLineVisible{
     override open func layoutSubviews() {
         super.layoutSubviews()
         contentViewWithFrame()
+        updateConstraints()
     }
     
     /*! 更新约束 */
