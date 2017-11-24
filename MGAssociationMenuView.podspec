@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MGAssociationMenuView"
-  s.version      = "0.0.10"
+  s.version      = "1.0.0"
   s.summary      = "多级联动控件"
 
   # This description is used to generate tags and improve search results.
@@ -133,6 +133,6 @@ Pod::Spec.new do |s|
   # s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
- s.dependency "SnapKit", '~> 3.2.0'
+ s.dependency "SnapKit"
 
 end
