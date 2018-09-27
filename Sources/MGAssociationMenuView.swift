@@ -285,7 +285,7 @@ extension MGAssociationMenuView{
     fileprivate func animateWithTables(){
         
         setNeedsUpdateConstraints()
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 10, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 10, options: UIView.AnimationOptions.curveEaseInOut, animations: {
             self.layoutIfNeeded()
         }, completion:nil)
     }
