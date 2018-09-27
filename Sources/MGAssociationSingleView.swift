@@ -31,7 +31,7 @@ import UIKit
 public extension UITableView {
     
     /*! 选中多个Cell */
-    func selectRows(at indexPaths: [IndexPath]?, animated: Bool, scrollPosition: UITableViewScrollPosition = .none) {
+    func selectRows(at indexPaths: [IndexPath]?, animated: Bool, scrollPosition: UITableView.ScrollPosition = .none) {
         if let `indexPaths` = indexPaths {
             for indexPath in indexPaths {
                 if let `delegate` = delegate {

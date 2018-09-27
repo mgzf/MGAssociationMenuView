@@ -148,7 +148,7 @@ extension ViewController: MGAssociationMenuViewDelegate{
     }
     
     func didShowNextTableView(_ tableView: UITableView, tableForColumnAt column: Int, tableAt data: [Any]?) {
-        tableView.selectRows(at: [IndexPath(row: column + 1, section: 0)], animated: true)
+//        tableView.selectRows(at: [IndexPath(row: column + 1, section: 0)], animated: true)
     }
     
     func completionWithSelectData(_ selectData : [Any] ){

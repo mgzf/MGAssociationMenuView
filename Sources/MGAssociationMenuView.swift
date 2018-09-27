@@ -94,7 +94,7 @@ open class MGAssociationMenuView: UIView ,BottomLineVisible{
     /*! 存储每列对应的View */
     fileprivate var associationViews: [MGAssociationSingleView] = []{
         didSet{
-           tableViews = associationViews.flatMap({ (view) -> MGAssociationTableView? in
+            tableViews = associationViews.compactMap({ (view) -> MGAssociationTableView? in
               return view.tableView
            })
         }
@@ -252,7 +252,7 @@ extension MGAssociationMenuView{
         
         if associationViews.count == 0 {
             associationViews.append(associationView)
-            tableViews = associationViews.flatMap({ (view) -> MGAssociationTableView? in
+            tableViews = associationViews.compactMap({ (view) -> MGAssociationTableView? in
                 return view.tableView
             })
             
@@ -268,7 +268,7 @@ extension MGAssociationMenuView{
             
             associationView.frame = CGRect(x: contentView.frame.width, y: 0, width: contentView.frame.width, height: contentView.frame.height)
             associationViews.append(associationView)
-            tableViews = associationViews.flatMap({ (view) -> MGAssociationTableView? in
+            tableViews = associationViews.compactMap({ (view) -> MGAssociationTableView? in
                 return view.tableView
             })
             
@@ -285,7 +285,7 @@ extension MGAssociationMenuView{
     fileprivate func animateWithTables(){
         
         setNeedsUpdateConstraints()
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 10, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.75, initialSpringVelocity: 10, options: UIView.AnimationOptions.curveEaseInOut, animations: {
             self.layoutIfNeeded()
         }, completion:nil)
     }
