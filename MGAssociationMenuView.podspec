@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MGAssociationMenuView"
-  s.version      = "1.0.1"
+  s.version      = "1.0.2"
   s.summary      = "多级联动控件"
 
   # This description is used to generate tags and improve search results.
@@ -66,7 +66,7 @@ Pod::Spec.new do |s|
 
   # s.platform     = :ios
   s.platform     = :ios, "8.0"
-
+  s.swift_version = '4.2'
   #  When using multiple platforms
   # s.ios.deployment_target = "5.0"
   # s.osx.deployment_target = "10.7"
