@@ -174,6 +174,14 @@ extension MGAssociationMenuView{
             tableView.reloadData()
         }
     }
+    
+    /*! 选中某行 */
+    public func select(at column: Int, indexPaths: [IndexPath]){
+        if tableViews.count > column {
+            let tableView = tableViews[column]
+            tableView.selectRows(at: indexPaths, animated: true, scrollPosition: UITableView.ScrollPosition.none)
+        }
+    }
 }
 
 
